@@ -40,4 +40,21 @@ router.get('/', (req, res) => {
     });
 });
 
+// Get one post
+router.get('/posts/:id', (req, res) => {
+    let id = req.params.id;
+
+    Blog.findByPk(id)
+    .then(blog => {
+        if(!blog) {
+            res.status(400).send({msg: `no blog with the id ${id}`});
+        } else {
+            res.status(200).send(blog);
+        }
+    })
+    .catch(err => {
+        res.status(500).json({msg: 'internal server error'});
+    });
+});
+
 module.exports = router;

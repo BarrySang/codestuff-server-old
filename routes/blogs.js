@@ -41,13 +41,13 @@ router.get('/', (req, res) => {
 });
 
 // Get one post
-router.get('/posts/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     let id = req.params.id;
 
     Blog.findByPk(id)
     .then(blog => {
         if(!blog) {
-            res.status(400).send({msg: `no blog with the id ${id}`});
+            res.status(400).send({found: false});
         } else {
             res.status(200).send(blog);
         }

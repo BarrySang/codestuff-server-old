@@ -8,7 +8,7 @@ const Blog = require('../models/Blog');
 router.post('/add', (req, res) => {
     let {title, preamble, body} = req.body;
 
-    if(!title || !body) {
+    if(!title || !preamble || !body) {
         res.status(200).json({msg: 'all fields must be filled'});
     } else {
         Blog.create({
@@ -20,6 +20,7 @@ router.post('/add', (req, res) => {
             res.status(200).json({msg: 'blog added succesfully'});
         })
         .catch(err => {
+            console.log(err);
             res.status(500).json({msg: 'internal server error'});
         })
     }

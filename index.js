@@ -7,6 +7,7 @@ const db = require('./config/database');
 app.use(express.json());
 
 app.use('/blogs', require('./routes/blogs'));
+app.use('/auth', require('./routes/auth'));
 
 //Confirm database connection
 db.authenticate()

@@ -6,6 +6,9 @@ const db = require('./config/database');
 
 app.use(express.json());
 
+// Body Parser
+app.use(express.urlencoded({ extended: false }));
+
 app.use('/blogs', require('./routes/blogs'));
 app.use('/auth', require('./routes/auth'));
 

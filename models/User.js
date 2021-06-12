@@ -20,3 +20,5 @@ const User = db.define('user', {
         type: Sequelize.STRING
     }
 });
+
+module.exports = Blog;

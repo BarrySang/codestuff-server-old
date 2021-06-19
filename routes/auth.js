@@ -26,7 +26,8 @@ router.post('/signup', (req, res) => {
     if(errors.length > 0) {
         res.status(400).json({errors: errors});
     } else {
-        res.status(200).json({success: success});
+        
+        res.status(200).json({success: 'success'});
     }
 
 });

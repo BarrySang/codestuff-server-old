@@ -1,15 +1,17 @@
 const express = require('express');
 const router =  express.Router();
+const User = require('../models/User');
+const bcrypt = require('bcrypt');
 
 // Signup
 router.post('/signup', (req, res) => {
-    const { firstname, othername, username, email, password, passwordconfirm } = req.body;
+    const { first_name, other_name, username, email, password, passwordconfirm } = req.body;
 
     //errors array
     let errors = [];
 
     //check required fields
-    if(!firstname || !othername || !email  || !username || !password || !passwordconfirm ) {
+    if(!first_name || !other_name || !email  || !username || !password || !passwordconfirm ) {
         errors.push({ msg: 'Ensure all fields are filled'});
     }
 
@@ -26,8 +28,29 @@ router.post('/signup', (req, res) => {
     if(errors.length > 0) {
         res.status(400).json({errors: errors});
     } else {
-        
-        res.status(200).json({success: 'success'});
+        let hashed_password = '';
+
+        //Hash password
+        bcrypt.genSalt(10, (err, salt) => bcrypt.hash(password, salt, (err, hash) => {
+            if(err) throw err;
+            let hashedPass = hash;
+        }));
+
+        User.create({
+            first_name,
+            other_name,
+            email,
+            username,
+            hashed_password
+        })
+        .then(user => {
+            res.status(200).json({success: 'registration succesful'});
+        })
+        .catch(err => {
+            console.log(hashed_password);
+            console.log(err);
+            res.status(400).json({error: 'email already in use'});
+        });
     }
 
 });

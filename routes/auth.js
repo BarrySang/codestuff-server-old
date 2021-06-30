@@ -29,28 +29,30 @@ router.post('/signup', (req, res) => {
         res.status(400).json({errors: errors});
     } else {
         let hashed_password = '';
-
         //Hash password
+        
         bcrypt.genSalt(10, (err, salt) => bcrypt.hash(password, salt, (err, hash) => {
             if(err) throw err;
-            let hashedPass = hash;
+            hashed_password = hash;
+            
+            User.create({
+                first_name,
+                other_name,
+                email,
+                username,
+                hashed_password
+            })
+            .then(user => {
+                res.status(200).json({success: 'registration succesful'});
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(400).json({error: 'email already in use'});
+            });
         }));
+        
 
-        User.create({
-            first_name,
-            other_name,
-            email,
-            username,
-            hashed_password
-        })
-        .then(user => {
-            res.status(200).json({success: 'registration succesful'});
-        })
-        .catch(err => {
-            console.log(hashed_password);
-            console.log(err);
-            res.status(400).json({error: 'email already in use'});
-        });
+        
     }
 
 });

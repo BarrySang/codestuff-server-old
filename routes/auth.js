@@ -29,12 +29,12 @@ router.post('/signup', (req, res) => {
         res.status(400).json({errors: errors});
     } else {
         let hashed_password = '';
-        //Hash password
-        
+
+        //Hash password and register user
         bcrypt.genSalt(10, (err, salt) => bcrypt.hash(password, salt, (err, hash) => {
             if(err) throw err;
             hashed_password = hash;
-            
+
             User.create({
                 first_name,
                 other_name,

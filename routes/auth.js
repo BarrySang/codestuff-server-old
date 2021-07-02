@@ -38,8 +38,7 @@ router.post('/signup', (req, res) => {
     // initialize hashed_password variable
     let hashed_password = '';
 
-    let dbEmail = getUsedEmail();
-    dbEmail.then(data => {
+    getUsedEmail().then(data => {
         if(data !== null) {
             res.status(400).json('email already in use');
         } else {

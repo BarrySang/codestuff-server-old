@@ -23,7 +23,7 @@ module.exports = function(passport) {
                         }
                     })
                 })
-                .catch();
+                .catch(err => console.log(err));
         })
     );
 
@@ -32,7 +32,7 @@ module.exports = function(passport) {
       });
       
       passport.deserializeUser(function(id, done) {
-        User.findById(id, function(err, user) {
+        User.findByPk(id, function(err, user) {
           done(err, user);
         });
       });

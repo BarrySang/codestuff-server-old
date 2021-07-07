@@ -98,11 +98,24 @@ router.post('/login', (req, res, next) => {
                     console.log(err);
                     return res.status(500).json('an error occured');
                 }
-                return res.status(200).json({success: 'login succesful'});
+                //console.log(req.sessionID);
+                return res.status(200).json({success: 'login succesful', token: req.sessionID});
             })
         }
     })(req, res, next)
 });
 
+//logout
+router.get('/logout', (req, res) => {
+    req.logout();
+    res.status(200).json({success: 'logged out'});
+    /*
+    if(!req.logout()) {
+        res.status(500).json({msg: 'an error ocurred'}); 
+    } else {
+        res.status(200).json({success: 'logged out'});
+    }
+    */
+});
 
 module.exports = router;

@@ -87,16 +87,12 @@ router.post('/signup', (req, res) => {
 
 //login
 router.post('/login', (req, res, next) => {
-    //console.log(req.body);
     passport.authenticate('local', (err, user, info) => {
         if(err) {
-            //console.log(err);
             return res.status(401).json(err);
         } else if(!user) {
             return res.status(401).json(info);
         } else {
-            console.log(user);
-        
             req.logIn(user, function(err) {
                 if (err) {
                     console.log(err);

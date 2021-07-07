@@ -14,8 +14,6 @@ app.use(express.json());
 // Body Parser
 app.use(express.urlencoded({ extended: false }));
 
-
-
 //set up express session
 const sess = {
     secret: 'a secret',
@@ -31,9 +29,6 @@ if(app.get('env') === 'production') {
 
 app.use(session(sess));
 
-
-
-
 //passport middleware 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -43,9 +38,10 @@ db.authenticate()
     .then(() => console.log('connected to database'))
     .catch((err) => console.log(err));
 
-    app.use('/blogs', require('./routes/blogs'));
-    app.use('/auth', require('./routes/auth'));
-    
+// routes
+app.use('/blogs', require('./routes/blogs'));
+app.use('/auth', require('./routes/auth'));
+
 //Function for listening to a port
 app.listen(port, () => {
     console.log(`listening on port ${port}`);

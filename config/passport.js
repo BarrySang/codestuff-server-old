@@ -10,7 +10,6 @@ module.exports = function(passport) {
                 .then(user => {
                     //Match email
                     if(!user) {
-                        console.log('no user')
                         return done(null, false, {error: 'no user with the given email'});
                     }
 

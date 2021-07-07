@@ -2,6 +2,8 @@ const express = require('express');
 const router =  express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const passport = require('passport');
+//const passport = require('../config/passport');
 
 // Signup
 router.post('/signup', (req, res) => {
@@ -46,7 +48,7 @@ router.post('/signup', (req, res) => {
 
     getUsedEmail().then(data => {
         if(data !== null) {
-            res.status(400).json('email already in use');
+            res.status(400).json({error: 'email already in use'});
         } else {
             getUsedUname().then(data => {
                 if(data !== null) {
@@ -82,5 +84,29 @@ router.post('/signup', (req, res) => {
     
     }
 });
+
+//login
+router.post('/login', (req, res, next) => {
+    //console.log(req.body);
+    passport.authenticate('local', (err, user, info) => {
+        if(err) {
+            //console.log(err);
+            return res.status(401).json(err);
+        } else if(!user) {
+            return res.status(401).json(info);
+        } else {
+            console.log(user);
+        
+            req.logIn(user, function(err) {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json('an error occured');
+                }
+                return res.status(200).json({success: 'login succesful'});
+            })
+        }
+    })(req, res, next)
+});
+
 
 module.exports = router;
